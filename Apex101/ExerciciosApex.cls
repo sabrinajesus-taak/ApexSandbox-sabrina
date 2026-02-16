@@ -244,4 +244,47 @@ public class ExerciciosApex {
         return atual;
     }
 
+    //next prime
+    public Integer nextPrime(Integer num) {
+        if (num <= 1) {
+            return 2;
+        }
+
+        Integer nextNum = num + 1;
+
+        while (true) {
+            Boolean primo = true;
+
+            for (Integer i = 2; i < nextNum; i++) {
+                if (Math.mod(nextNum, i) == 0) {
+                    primo = false;
+                    break;
+                }
+            }
+
+            if (primo) {
+                return nextNum;
+            } else {
+                nextNum += 1;
+            }
+
+        }
+        return -1;
+    }
+
+    //reverse orders of words
+    public String reverseWordsInASentence(String sentence){
+        if (sentence == null) return null;
+
+        List<String> words = sentence.split(' ');
+        String reversed = '';
+
+        for (Integer i = words.size()-1; i >= 0; i--) {
+            reversed += words[i];
+            if (i != 0)  {
+                reversed += ' ';
+            }
+        }
+        return reversed;
+    }
 }
