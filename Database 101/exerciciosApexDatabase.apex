@@ -52,4 +52,52 @@ public class exerciciosApexSandboxDatabase {
         ];
         return students;
     }
+
+    //Unreachable Students
+    public List<apxio__Student__c> selectUnreachableStudents() {
+        List<apxio__Student__c> students = [
+            select Id, Name
+            from apxio__Student__c
+            where apxio__Email__c = null
+            and apxio__Phone__c = null
+            and apxio__Active__c = true
+            order by Name asc
+        ];
+
+        return students;
+    }
+
+    //Students Missing Info
+    public List<apxio__Student__c> selectStudentsWithoutContactInfo() {
+        List<apxio__Student__c> students = [
+            select Id, Name
+            from apxio__Student__c
+            where apxio__Active__c = true
+            and (apxio__Email__c = null OR apxio__Phone__c = null)
+            order by Name asc
+        ];
+        return students;
+    }
+
+    //Course and Class
+    public void createCourseAndClass(String name, String description) {
+        String descricaoTruncada;
+        if (description != null) {
+            descricaoTruncada = description.left(255);
+        } else {
+            descricaoTruncada = null;
+        }
+
+        apxio__Course__c course = new apxio__Course__c();
+        course.Name = name;
+        course.apxio__Course_Details__c = description;
+        insert course;
+
+        apxio__Class__c clas = new apxio__Class__c();
+        clas.Name = name;
+        clas.apxio__Description__c = descricaoTruncada;
+        clas.apxio__Course__c = course.Id;
+        insert clas;
+
+    }
 }
